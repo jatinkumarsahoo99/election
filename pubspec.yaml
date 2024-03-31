@@ -1,0 +1,46 @@
+name: election
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: 4.6.6
+  google_fonts: 6.1.0
+  dio:
+  font_awesome_flutter:
+  url_launcher:
+  dropdown_search:
+  pdf:
+  printing:
+  rflutter_alert:
+  flutter_spinkit:
+  screenshot:
+  share_plus:
+  shared_preferences:
+  whatsapp_share:
+  flutter_launcher_icons:
+#  url_launcher:
+  flutter: 
+    sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/elc.jpeg"
+
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/font/
+
