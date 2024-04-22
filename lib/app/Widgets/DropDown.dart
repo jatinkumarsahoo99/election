@@ -84,7 +84,7 @@ class DropDown{
     WidgetsFlutterBinding.ensureInitialized();
 
     return DropdownSearch<KeyvalueModel>(
-      popupProps: PopupProps.modalBottomSheet(
+      popupProps: const PopupProps.modalBottomSheet(
         showSelectedItems: false,
         showSearchBox: true,
         searchFieldProps: TextFieldProps(decoration: InputDecoration(
@@ -191,7 +191,7 @@ class DropDown{
     WidgetsFlutterBinding.ensureInitialized();
 
     return DropdownSearch<KeyvalueModel>(
-      popupProps: PopupProps.modalBottomSheet(
+      popupProps: const PopupProps.modalBottomSheet(
         showSelectedItems: false,
         showSearchBox: true,
         searchFieldProps: TextFieldProps(decoration: InputDecoration(
@@ -417,7 +417,8 @@ class DropDown{
                           dropdownOpen(false);
                         }
                       });
-                    } else {
+                    }
+                    else {
                       var tempList = RxList<DropDownValue>([]);
                       // if (selected == null) {
                       //   tempList.addAll(items);
@@ -604,146 +605,6 @@ class DropDown{
         }),
       ],
     );
-    // final iconColor =
-    //     (isEnable ?? true) ? Colors.deepPurpleAccent : Colors.grey;
-    // return Builder(builder: (context) {
-    //   FocusNode focusNode = FocusNode();
-    //   return Focus(
-    //     focusNode: focusNode,
-    //     autofocus: autoFocus,
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         LabelText.style(hint: hint),
-    //         SizedBox(
-    //           height: SizeDefine.heightInputField,
-    //           width: Get.width * widthRatio,
-    //           child: DropdownSearch<DropDownValue>(
-    //             // focusNode: focusNode,
-    //             autoValidateMode: AutovalidateMode.onUserInteraction,
-    //             enabled: isEnable ?? true,
-    //             selectedItem: selected,
-    //             dropdownBuilder: (context, selectedItem) {
-    //               return Padding(
-    //                 padding: const EdgeInsets.only(top: 2.5),
-    //                 child: Text(
-    //                   (selectedItem?.value ?? ""),
-    //                   style: TextStyle(
-    //                     fontSize: SizeDefine.fontSizeInputField,
-    //                     color: Colors.black,
-    //                     fontWeight: FontWeight.normal,
-    //                   ),
-    //                   textAlign: TextAlign.start,
-    //                 ),
-    //               );
-    //             },
-    //             validator: (value) {
-    //               if (validator != null) {
-    //                 return validator(selected);
-    //               } else {
-    //                 return null;
-    //               }
-    //             },
-    //             popupItemBuilder: (context, item, s) {
-    //               return Container(
-    //                 // padding: EdgeInsets.only(left: 4),
-    //                 // height: 15,
-    //                 //   minVerticalPadding:5,
-    //                 // dense:true,
-    //                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-    //                 child: Text(
-    //                   (item.value ?? ""),
-    //                   style: TextStyle(
-    //                     fontSize: SizeDefine.dropDownFontSize,
-    //                     color: Colors.black,
-    //                     fontWeight: FontWeight.normal,
-    //                   ),
-    //                 ),
-    //               );
-    //             },
-    //             dropdownButtonProps: IconButtonProps(
-    //               focusNode: AlwaysDisabledFocusNode(),
-    //               visualDensity: VisualDensity.compact,
-    //               padding: const EdgeInsets.all(3),
-    //               alignment: Alignment.topCenter,
-    //               icon: Icon(
-    //                 Icons.arrow_drop_down_outlined,
-    //                 color: iconColor,
-    //               ),
-    //               focusColor: iconColor,
-    //               color: iconColor,
-    //               disabledColor: iconColor,
-    //             ),
-    //             showSearchBox: searchReq ?? true,
-    //             isFilteredOnline: false,
-    //             mode: Mode.MENU,
-    //             itemAsString: (item) => item?.value ?? "",
-    //             searchFieldProps: TextFieldProps(
-    //               autofocus: true,
-    //               style: TextStyle(
-    //                 fontSize: SizeDefine.dropDownFontSize,
-    //                 color: Colors.black,
-    //                 fontWeight: FontWeight.normal,
-    //               ),
-    //               inputFormatters: [
-    //                 // LengthLimitingTextInputFormatter(45),
-    //                 // UpperCaseTextFormatter(),
-    //                 FilteringTextInputFormatter.deny("  "),
-    //                 // FilteringTextInputFormatter.allow(RegExp(r"^(\w+ ?)*$")),
-    //               ],
-    //               decoration: InputDecoration(
-    //                 errorBorder: InputBorder.none,
-    //                 hintText: "Search",
-    //                 contentPadding: const EdgeInsets.symmetric(
-    //                     horizontal: 10, vertical: 12),
-    //                 isDense: true,
-    //                 enabledBorder: OutlineInputBorder(
-    //                   borderSide:
-    //                       const BorderSide(color: Colors.deepPurpleAccent),
-    //                   borderRadius: BorderRadius.circular(0),
-    //                 ),
-    //                 focusedBorder: OutlineInputBorder(
-    //                   borderSide:
-    //                       const BorderSide(color: Colors.deepPurpleAccent),
-    //                   borderRadius: BorderRadius.circular(0),
-    //                 ),
-    //                 disabledBorder: OutlineInputBorder(
-    //                   borderSide: const BorderSide(color: Colors.grey),
-    //                   borderRadius: BorderRadius.circular(0),
-    //                 ),
-    //               ),
-    //             ),
-    //             dropdownSearchDecoration: InputDecoration(
-    //               contentPadding: const EdgeInsets.only(left: 10),
-    //               border: InputBorder.none,
-    //               enabledBorder: OutlineInputBorder(
-    //                 borderSide:
-    //                     const BorderSide(color: Colors.deepPurpleAccent),
-    //                 borderRadius: BorderRadius.circular(0),
-    //               ),
-    //               errorBorder: InputBorder.none,
-    //               focusedBorder: OutlineInputBorder(
-    //                 borderSide:
-    //                     const BorderSide(color: Colors.deepPurpleAccent),
-    //                 borderRadius: BorderRadius.circular(0),
-    //               ),
-    //               disabledBorder: OutlineInputBorder(
-    //                 borderSide: const BorderSide(color: Colors.grey),
-    //                 borderRadius: BorderRadius.circular(0),
-    //               ),
-    //               floatingLabelBehavior: FloatingLabelBehavior.always,
-    //             ),
-    //             items: items,
-    //             onChanged: (val) {
-    //               callback(val!);
-    //               FocusScope.of(Get.context!).requestFocus(focusNode);
-    //             },
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // });
   }
 
   static Widget formDropDown1WidthMap1(
@@ -1059,146 +920,6 @@ class DropDown{
         }),
       ],
     );
-    // final iconColor =
-    //     (isEnable ?? true) ? Colors.deepPurpleAccent : Colors.grey;
-    // return Builder(builder: (context) {
-    //   FocusNode focusNode = FocusNode();
-    //   return Focus(
-    //     focusNode: focusNode,
-    //     autofocus: autoFocus,
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         LabelText.style(hint: hint),
-    //         SizedBox(
-    //           height: SizeDefine.heightInputField,
-    //           width: Get.width * widthRatio,
-    //           child: DropdownSearch<DropDownValue>(
-    //             // focusNode: focusNode,
-    //             autoValidateMode: AutovalidateMode.onUserInteraction,
-    //             enabled: isEnable ?? true,
-    //             selectedItem: selected,
-    //             dropdownBuilder: (context, selectedItem) {
-    //               return Padding(
-    //                 padding: const EdgeInsets.only(top: 2.5),
-    //                 child: Text(
-    //                   (selectedItem?.value ?? ""),
-    //                   style: TextStyle(
-    //                     fontSize: SizeDefine.fontSizeInputField,
-    //                     color: Colors.black,
-    //                     fontWeight: FontWeight.normal,
-    //                   ),
-    //                   textAlign: TextAlign.start,
-    //                 ),
-    //               );
-    //             },
-    //             validator: (value) {
-    //               if (validator != null) {
-    //                 return validator(selected);
-    //               } else {
-    //                 return null;
-    //               }
-    //             },
-    //             popupItemBuilder: (context, item, s) {
-    //               return Container(
-    //                 // padding: EdgeInsets.only(left: 4),
-    //                 // height: 15,
-    //                 //   minVerticalPadding:5,
-    //                 // dense:true,
-    //                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-    //                 child: Text(
-    //                   (item.value ?? ""),
-    //                   style: TextStyle(
-    //                     fontSize: SizeDefine.dropDownFontSize,
-    //                     color: Colors.black,
-    //                     fontWeight: FontWeight.normal,
-    //                   ),
-    //                 ),
-    //               );
-    //             },
-    //             dropdownButtonProps: IconButtonProps(
-    //               focusNode: AlwaysDisabledFocusNode(),
-    //               visualDensity: VisualDensity.compact,
-    //               padding: const EdgeInsets.all(3),
-    //               alignment: Alignment.topCenter,
-    //               icon: Icon(
-    //                 Icons.arrow_drop_down_outlined,
-    //                 color: iconColor,
-    //               ),
-    //               focusColor: iconColor,
-    //               color: iconColor,
-    //               disabledColor: iconColor,
-    //             ),
-    //             showSearchBox: searchReq ?? true,
-    //             isFilteredOnline: false,
-    //             mode: Mode.MENU,
-    //             itemAsString: (item) => item?.value ?? "",
-    //             searchFieldProps: TextFieldProps(
-    //               autofocus: true,
-    //               style: TextStyle(
-    //                 fontSize: SizeDefine.dropDownFontSize,
-    //                 color: Colors.black,
-    //                 fontWeight: FontWeight.normal,
-    //               ),
-    //               inputFormatters: [
-    //                 // LengthLimitingTextInputFormatter(45),
-    //                 // UpperCaseTextFormatter(),
-    //                 FilteringTextInputFormatter.deny("  "),
-    //                 // FilteringTextInputFormatter.allow(RegExp(r"^(\w+ ?)*$")),
-    //               ],
-    //               decoration: InputDecoration(
-    //                 errorBorder: InputBorder.none,
-    //                 hintText: "Search",
-    //                 contentPadding: const EdgeInsets.symmetric(
-    //                     horizontal: 10, vertical: 12),
-    //                 isDense: true,
-    //                 enabledBorder: OutlineInputBorder(
-    //                   borderSide:
-    //                       const BorderSide(color: Colors.deepPurpleAccent),
-    //                   borderRadius: BorderRadius.circular(0),
-    //                 ),
-    //                 focusedBorder: OutlineInputBorder(
-    //                   borderSide:
-    //                       const BorderSide(color: Colors.deepPurpleAccent),
-    //                   borderRadius: BorderRadius.circular(0),
-    //                 ),
-    //                 disabledBorder: OutlineInputBorder(
-    //                   borderSide: const BorderSide(color: Colors.grey),
-    //                   borderRadius: BorderRadius.circular(0),
-    //                 ),
-    //               ),
-    //             ),
-    //             dropdownSearchDecoration: InputDecoration(
-    //               contentPadding: const EdgeInsets.only(left: 10),
-    //               border: InputBorder.none,
-    //               enabledBorder: OutlineInputBorder(
-    //                 borderSide:
-    //                     const BorderSide(color: Colors.deepPurpleAccent),
-    //                 borderRadius: BorderRadius.circular(0),
-    //               ),
-    //               errorBorder: InputBorder.none,
-    //               focusedBorder: OutlineInputBorder(
-    //                 borderSide:
-    //                     const BorderSide(color: Colors.deepPurpleAccent),
-    //                 borderRadius: BorderRadius.circular(0),
-    //               ),
-    //               disabledBorder: OutlineInputBorder(
-    //                 borderSide: const BorderSide(color: Colors.grey),
-    //                 borderRadius: BorderRadius.circular(0),
-    //               ),
-    //               floatingLabelBehavior: FloatingLabelBehavior.always,
-    //             ),
-    //             items: items,
-    //             onChanged: (val) {
-    //               callback(val!);
-    //               FocusScope.of(Get.context!).requestFocus(focusNode);
-    //             },
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // });
   }
 
 

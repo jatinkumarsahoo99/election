@@ -2,13 +2,13 @@ name: election
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment: 
+environment:
   sdk: '>=3.2.6 <4.0.0'
 
 dependencies: 
-  cupertino_icons: ^1.0.2
-  get: 4.6.6
-  google_fonts: 6.1.0
+  cupertino_icons:
+  get:
+  google_fonts:
   dio:
   font_awesome_flutter:
   url_launcher:
@@ -22,6 +22,13 @@ dependencies:
   shared_preferences:
   whatsapp_share:
   flutter_launcher_icons:
+  flutter_thermal_printer: 0.0.5
+  enough_ascii_art:
+#  fp_bt_printer:
+#  esc_pos_utils:
+#  image:
+#  bluetooth_print:
+  intl:
 #  url_launcher:
   flutter: 
     sdk: flutter

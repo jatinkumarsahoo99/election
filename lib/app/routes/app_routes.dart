@@ -7,6 +7,7 @@ abstract class Routes {
   static const LOGINPAGE = _Paths.LOGINPAGE;
   static const SPLASHSCREEN = _Paths.SPLASHSCREEN;
   static const DASHBOARDSCREEN = _Paths.DASHBOARDSCREEN;
+  static const BLUETOOTHPRINTSCREEN = _Paths.BLUETOOTHPRINTSCREEN;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const LOGINPAGE = '/loginpage';
   static const SPLASHSCREEN = '/splashscreen';
   static const DASHBOARDSCREEN = '/dashboardscreen';
+  static const BLUETOOTHPRINTSCREEN = '/bluetoothprintscreen';
 }

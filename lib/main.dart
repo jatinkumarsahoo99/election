@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'app/AppTheme/Theme.dart';
 import 'app/routes/app_pages.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 

@@ -101,7 +101,7 @@ class AppTheme{
 
   static get mapCardDecoration => BoxDecoration(
     color: AppTheme.scaffoldBackgroundColor,
-    borderRadius: BorderRadius.all(Radius.circular(24.0)),
+    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
     boxShadow: <BoxShadow>[
       BoxShadow(
           color: Theme.of(Get.context!).dividerColor,

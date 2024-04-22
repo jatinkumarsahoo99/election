@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:election/app/Widgets/MyWidget.dart';
 import 'package:election/app/modules/dashboardscreen/UserDetailsModel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,17 +11,17 @@ import 'package:get/get.dart';
 
 import '../../../AppTheme/Theme.dart';
 import '../../../AppTheme/text_styles.dart';
-import '../../../CommonModel/DropDownValue.dart';
+
 import '../../../Utils/shared_preferences_keys.dart';
 import '../../../Widgets/DropDown.dart';
 import '../../../Widgets/common_appbar_view.dart';
 import '../../../Widgets/common_card.dart';
 import '../../../Widgets/common_search_bar.dart';
+import '../../../Widgets/print_page.dart';
+import '../../../Widgets/printpage_two.dart';
 import '../../../Widgets/remove_focuse.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/dashboardscreen_controller.dart';
-
-// import 'package:flutter/material.dart';
 
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -57,7 +58,7 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
               },
             ),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: Get.height * 0.9,
                 child: SingleChildScrollView(
                   child: Column(
@@ -86,8 +87,8 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                   padding: const EdgeInsets.only(left: 8.0, top: 2, bottom: 2),
                                   child: Obx(() {
                                     return DropDown.formDropDown1WidthMap1(
-                                      controller.districtLst.value,
-                                          (value) {
+                                      controller.districtLst,
+                                      (value) {
                                         controller.selectedDistrict?.value = value;
                                         controller.getAssemblyApiCall(
                                             controller.selectedDistrict?.value?.key ?? "");
@@ -108,8 +109,8 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                   padding: const EdgeInsets.only(left: 8.0, top: 2, bottom: 2),
                                   child: Obx(() {
                                     return DropDown.formDropDown1WidthMap1(
-                                      controller.assemblyLst.value ?? [],
-                                          (value) {
+                                      controller.assemblyLst,
+                                      (value) {
                                         controller.selectedAssembly?.value = value;
                                         controller.getUserDetailsApiCall();
                                       },
@@ -125,7 +126,8 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                   }),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 35, right: 12, top: 5, bottom: 5),
+                                  padding:
+                                      const EdgeInsets.only(left: 35, right: 12, top: 5, bottom: 5),
                                   child: CommonCard(
                                     color: AppTheme.backgroundColor,
                                     radius: 36,
@@ -133,10 +135,12 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                       // textEditingController: myController,
                                       controller: controller.searchTextEditingController,
                                       onChange: (val) {
-                                        print(">>>>>>>>>${val}");
+                                        if (kDebugMode) {
+                                          print(">>>>>>>>>$val");
+                                        }
                                         controller.getSearchDetails(val);
                                       },
-                                      iconData: FontAwesomeIcons.search,
+                                      iconData: FontAwesomeIcons.magnifyingGlass,
                                       enabled: true,
                                       text: "Search",
                                     ),
@@ -147,12 +151,10 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                           ),
                         ),
                       ),
-
-
-                      SizedBox(
+                      const SizedBox(
                         height: 2,
                       ),
-                      Divider(
+                      const Divider(
                         height: 1,
                       ),
                       Obx(() {
@@ -164,72 +166,66 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                   padding: const EdgeInsets.all(0),
                                   itemBuilder: (context, index) {
                                     return Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Card(
                                         child: Padding(
-                                          padding: EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Column(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Row(
                                                 children: [
                                                   const Text("କ୍ରମିକ ନଂ: "),
-                                                  Text(controller
-                                                          .userDetails.value[index].serialNo ??
-                                                      ""),
+                                                  Text(
+                                                      controller.userDetails[index].serialNo ?? ""),
                                                 ],
                                               ),
                                               Row(
                                                 children: [
                                                   const Text("ନାମ: "),
-                                                  Text(controller
-                                                          .userDetails.value[index].voterName ??
+                                                  Text(controller.userDetails[index].voterName ??
                                                       ""),
                                                 ],
                                               ),
                                               Row(
                                                 children: [
-                                                  Text("ନିର୍ବାଚନ ତାରିଖ: "),
+                                                  const Text("ନିର୍ବାଚନ ତାରିଖ: "),
                                                   Text(controller.electionDate ?? ""),
                                                 ],
                                               ),
                                               Row(
                                                 children: [
-                                                  Text("ବୁଥ ନଂ: "),
+                                                  const Text("ବୁଥ ନଂ: "),
+                                                  Text(controller.userDetails[index].boothNo ?? ""),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text("ଲିଙ୍ଗ: "),
+                                                  Text(controller.userDetails[index].gender ?? ""),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text("ନିର୍ବାଚନ କେନ୍ଦ୍ର: "),
+                                                  Text(controller
+                                                          .userDetails[index].constituencyName ??
+                                                      ""),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text("ଭୋଟର ଇଡି: "),
                                                   Text(
-                                                      controller.userDetails.value[index].boothNo ??
-                                                          ""),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text("ଲିଙ୍ଗ: "),
-                                                  Text(controller.userDetails.value[index].gender ??
-                                                      ""),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text("ନିର୍ବାଚନ କେନ୍ଦ୍ର: "),
-                                                  Text(controller.userDetails.value[index]
-                                                          .constituencyName ??
-                                                      ""),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text("ଭୋଟର ଇଡି: "),
-                                                  Text(controller.userDetails.value[index]
-                                                          .voter_id ??
-                                                      ""),
+                                                      controller.userDetails[index].voter_id ?? ""),
                                                 ],
                                               ),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   InkWell(
-                                                      onTap: () {
-                                                        controller
+                                                      onTap: () async {
+                                                        /*controller
                                                             .getImageData()
                                                             .then((value) async {
                                                           if (controller.byteList != null) {
@@ -241,60 +237,75 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                                                 return buildPdf1(
                                                                     format,
                                                                     controller
-                                                                        .userDetails.value[index]);
+                                                                        .userDetails[index]);
                                                               },
                                                             );
                                                           }
+                                                        });*/
+
+                                                        await buildPdf1(PdfPageFormat.standard,
+                                                                controller.userDetails[index])
+                                                            .then((value) async {
+                                                          // final ByteData data = await rootBundle.load('assets/images/bjp.png');
+                                                          //  final Uint8List imgBytes = data.buffer.asUint8List();
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) => MyApp(
+                                                                data: value,
+                                                              ),
+                                                            ),
+                                                          );
                                                         });
                                                       },
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
+                                                      child: const Padding(
+                                                        padding: EdgeInsets.all(8.0),
                                                         child: Icon(
                                                           FontAwesomeIcons.print,
                                                           color: Colors.black,
                                                         ),
                                                       )),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 5,
                                                   ),
                                                   InkWell(
                                                     onTap: () {
                                                       buildPdf1(PdfPageFormat.standard,
-                                                              controller.userDetails.value[index])
+                                                              controller.userDetails[index])
                                                           .then((value) {
-                                                        controller.textMe(
-                                                            controller.userDetails.value[index]);
+                                                        controller
+                                                            .textMe(controller.userDetails[index]);
                                                       });
                                                     },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
+                                                    child: const Padding(
+                                                      padding: EdgeInsets.all(8.0),
                                                       child: Icon(
-                                                        FontAwesomeIcons.sms,
+                                                        FontAwesomeIcons.commentSms,
                                                         color: Colors.redAccent,
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 5,
                                                   ),
                                                   InkWell(
                                                     onTap: () {
                                                       buildPdf1(PdfPageFormat.standard,
-                                                              controller.userDetails.value[index])
+                                                              controller.userDetails[index])
                                                           .then((value) {
                                                         controller.sendWhatsappMessage(
-                                                            controller.userDetails.value[index]);
+                                                            controller.userDetails[index]);
                                                       });
                                                     },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
+                                                    child: const Padding(
+                                                      padding: EdgeInsets.all(8.0),
                                                       child: Icon(
                                                         FontAwesomeIcons.whatsapp,
                                                         color: Colors.teal,
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 5,
                                                   ),
                                                   InkWell(
@@ -306,13 +317,12 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                                             Printing.sharePdf(
                                                                 bytes: await buildPdf1(
                                                                     PdfPageFormat.standard,
-                                                                    controller
-                                                                        .userDetails.value[index]));
+                                                                    controller.userDetails[index]));
                                                           }
                                                         });
                                                       },
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
+                                                      child: const Padding(
+                                                        padding: EdgeInsets.all(8.0),
                                                         child: Icon(
                                                           FontAwesomeIcons.share,
                                                           color: Colors.teal,
@@ -328,7 +338,7 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
                                   },
                                   itemCount: controller.userDetails.length,
                                   separatorBuilder: (BuildContext context, int index) {
-                                    return Divider(
+                                    return const Divider(
                                       height: 1,
                                     );
                                   },
@@ -488,145 +498,189 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
     // Add one page with centered text "Hello World"
 
     controller.screenshotController
-        .captureFromWidget(Column(children: [
-      // pw.Image.asset(),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ଆଶାୟୀ ପ୍ରାର୍ଥୀ",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            controller.userName ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ଭୋଟ ଦେଇ ଜୟଯୁକ୍ତ କରାନ୍ତୁ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      SizedBox(height: Get.height * 0.15, child: Image.asset("assets/images/bjp.png")),
-      SizedBox(height: 8),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ଆଳି ବିଧାନସଭା ନର୍ବାଚନମଣ୍ଡଳୀ ୨୦୨୪",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ବୁଥ୍ ନଂ: ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            userData.boothNo ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+        .captureFromWidget(
+      Container(
+        color: Colors.white,
+        height: 400,
+        width: 440,
+        child: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ଆଶାୟୀ ପ୍ରାର୍ଥୀ",
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  controller.userName ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "କ୍ରମିକ ନଂ: ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            userData.serialNo ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-            // style: pw.TextStyle(font: controller.ttf),
-          ),
-        ],
-      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ଭୋଟ ଦେଇ ଜୟଯୁକ୍ତ କରାନ୍ତୁ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            // Image.asset("assets/images/32.png",height: 40,width: 40,),
+            // SizedBox(height: Get.height * 0.15, child: Image.asset("assets/images/32.png")),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ଆଳି ବିଧାନସଭା ନର୍ବାଚନମଣ୍ଡଳୀ ୨୦୨୪",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ବୁଥ୍ ନଂ: ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  userData.boothNo ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ନାମ: ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            userData.voterName ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ଭୋଟର ଇଡି: ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            userData.voter_id ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "କ୍ରମିକ ନଂ: ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  userData.serialNo ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                  // style: pw.TextStyle(font: controller.ttf),
+                ),
+              ],
+            ),
 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ମତଦାନ କେନ୍ଦ୍ର: ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            userData.constituencyName ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ନାମ: ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  userData.voterName ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ଭୋଟର ଇଡି: ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  userData.voter_id ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "ମତଦାନ ତାରିଖ: ",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            controller.electionDate ?? "",
-            style: TextStyle(
-                fontSize: controller.fontSize, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ମତଦାନ କେନ୍ଦ୍ର: ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  userData.constituencyName ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "ମତଦାନ ତାରିଖ: ",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  controller.electionDate ?? "",
+                  style: TextStyle(
+                      fontSize: controller.fontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ]),
+        ),
       ),
-    ]))
+      pixelRatio: 1.2,
+    )
         .then((capturedImage) async {
       // print(">>>>>>>>>>>>data ${capturedImage}");
       doc.addPage(
@@ -634,7 +688,7 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
           pageFormat: PdfPageFormat(12.8 * cm, 24.0 * cm, marginAll: 1.0 * cm),
           build: (pw.Context context) {
             return pw.ConstrainedBox(
-              constraints: pw.BoxConstraints.expand(),
+              constraints: const pw.BoxConstraints.expand(),
               child: pw.SizedBox(
                   height: Get.height * 0.15,
                   child: pw.Image(
@@ -644,7 +698,7 @@ class DashboardscreenView extends GetView<DashboardscreenController> {
           },
         ),
       );
-      completer.complete(await doc.save());
+      completer.complete(capturedImage);
       // Handle captured image
     });
 

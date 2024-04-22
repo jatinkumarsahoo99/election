@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/bluetoothprintscreen/bindings/bluetoothprintscreen_binding.dart';
+import '../modules/bluetoothprintscreen/views/bluetoothprintscreen_view.dart';
 import '../modules/dashboardscreen/bindings/dashboardscreen_binding.dart';
 import '../modules/dashboardscreen/views/dashboardscreen_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -34,8 +36,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DASHBOARDSCREEN,
-      page: () =>  DashboardscreenView(),
+      page: () => DashboardscreenView(),
       binding: DashboardscreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.BLUETOOTHPRINTSCREEN,
+      page: () => const BluetoothprintscreenView(),
+      binding: BluetoothprintscreenBinding(),
     ),
   ];
 }
